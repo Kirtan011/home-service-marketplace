@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import Booking, { BookingStatus } from './models/Booking'; // We'll assume local file for now, might need TS config tweaks
+import Booking, { BookingStatus } from './models/Booking'; 
 
 dotenv.config();
 
@@ -12,14 +12,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+
 mongoose.connect(process.env.MONGO_URI as string)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error(err));
 
-// --- API ROUTES ---
-
-// 1. Create a Booking (Customer)
 app.post('/bookings', async (req, res) => {
   try {
     const { customerName, serviceType } = req.body;
@@ -31,7 +28,7 @@ app.post('/bookings', async (req, res) => {
   }
 });
 
-// 2. Get Bookings (Admin/Provider)
+
 app.get('/bookings', async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
@@ -41,7 +38,6 @@ app.get('/bookings', async (req, res) => {
   }
 });
 
-// 3. Assign Provider (Provider Accept)
 app.put('/bookings/:id/assign', async (req, res) => {
   try {
     const { providerName } = req.body;
@@ -61,11 +57,9 @@ app.put('/bookings/:id/assign', async (req, res) => {
   }
 });
 
-// 4. Update Status (Lifecycle)
 app.put('/bookings/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
-    // Basic validation could go here
     const booking = await Booking.findByIdAndUpdate(
       req.params.id, 
       { status }, 
