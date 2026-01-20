@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Booking, { BookingStatus } from './models/Booking'; // Adjust path if needed
+import Booking, { BookingStatus } from './models/Booking'; 
 
 dotenv.config();
 
